@@ -1,0 +1,19 @@
+jwt:
+  header: Authorization
+  secret: my-very-secret-key
+spring:
+  datasource:
+    generate-unique-name: 'false'
+    url: jdbc:mysql://localhost:3306/shomsydb
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: '8081'
+
+
