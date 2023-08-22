@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  */
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@EnableCaching
 public class ShomsyApplication {
 
     public static void main(String[] args) {
