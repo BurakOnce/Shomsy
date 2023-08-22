@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 
     /*
-     * with SecurityConfig (in util) we can use passwordEncoder
+     * with SecurityConfig we can use passwordEncoder
      * */
     @Autowired
     PasswordEncoder passwordEncoder;
