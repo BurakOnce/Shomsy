@@ -5,6 +5,8 @@ import com.example.shomsy.entities.Category;
 import com.example.shomsy.repositories.CategoryRepository;
 import com.example.shomsy.util.Helper;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository repositoryCategory;
     private final Helper helper;
     @Override
+    @CacheEvict(value="category",allEntries = true)
     public void saveCategory(List<CategoryDTO> dtos) {
         for (CategoryDTO dto:dtos){
 
@@ -30,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value="category",allEntries = true)
     public void updateCategory(List<CategoryDTO> dtos) {
         for (CategoryDTO dto : dtos) {
             Optional<Category> optionalCategory = repositoryCategory.findById(dto.getId());
@@ -47,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value="category",allEntries = true)
     public void deleteCategory(List<CategoryDTO> dtos) {
         for (CategoryDTO dto : dtos) {
             //System.out.println(helper.deleteSuccess()+"Name: "+dto.getName()+"    Age: "+dto.getAge());
@@ -64,17 +69,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable("category")
     public Long countCategories() {
         return repositoryCategory.count();
     }
     @Override
+    @Cacheable("category")
     public List<Category> getAllCategories() {
         return repositoryCategory.findAll();
     }
 
+    @CacheEvict(value="category",allEntries = true)
     public void deleteAllCategories() {repositoryCategory.deleteAll();}
 
     @Override
+    @Cacheable("category")
     public Category getOneCategory(Long id) {
         //return repository.getReferenceById(id);
         try{
@@ -86,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable("category")
     public List<Category> getGenderCategory(Long parentId){
 
         return repositoryCategory.findByParentId(parentId);
