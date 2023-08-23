@@ -5,6 +5,8 @@ package com.example.shomsy.services.user;
         import com.example.shomsy.repositories.UserRepository;
         import com.example.shomsy.util.Helper;
         import lombok.AllArgsConstructor;
+        import org.springframework.cache.annotation.CacheEvict;
+        import org.springframework.cache.annotation.Cacheable;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.data.domain.Sort;
         import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @CacheEvict(value="user",allEntries = true)
     public void saveUser(List<UserDTO> dtos) {
         for (UserDTO dto:dtos){
 
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
         System.out.println(helper.addSuccess()+repositoryUser.count()+" user");
     }
     @Override
+    @CacheEvict(value="user",allEntries = true)
     public void updateUser(List<UserDTO> dtos) {
         for (UserDTO dto : dtos) {
             Optional<User> optionalUser = repositoryUser.findById(dto.getId());
@@ -72,6 +76,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @CacheEvict(value="user",allEntries = true)
     public void deleteUser(List<UserDTO> dtos) {
         for (UserDTO dto : dtos) {
             //System.out.println(helper.deleteSuccess()+"Name: "+dto.getName()+"    Age: "+dto.getAge());
@@ -88,10 +93,12 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
+    @Cacheable("user")
     public Long countUsers() {
         return repositoryUser.count();
     }
     @Override
+    @Cacheable("user")
     public List<User> getAllUsers() {
         return repositoryUser.findAll();
     }
@@ -99,6 +106,7 @@ public class UserServiceImpl implements UserService {
     public void deleteAllUsers() {repositoryUser.deleteAll();}
 
     @Override
+    @Cacheable("user")
     public User getOneUser(Long sid) {
         //return repository.getReferenceById(id);
         try{
@@ -109,6 +117,7 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
+    @Cacheable("user")
     public List<User> findUsersByFirstName(String firstName) {
 
         if (firstName == null) {
@@ -120,8 +129,9 @@ public class UserServiceImpl implements UserService {
 
         return allUsers;
     }
-    @Override
-    public List<User> findUsersByLastName(String lastName) {
+        @Override
+        @Cacheable("user")
+        public List<User> findUsersByLastName(String lastName) {
 
         if (lastName == null) {
             System.out.println("keyword is null");
@@ -133,6 +143,7 @@ public class UserServiceImpl implements UserService {
         return allUsers;
     }
     @Override
+    @Cacheable("user")
     public List<User> findUsersByDesiredAge(int age){
 
         if (age <= 0) {
@@ -147,6 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable("user")
     public List<User> findUsersByYoungerThenDesiredAge(int age){
 
         if (age <= 0) {
@@ -160,6 +172,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable("user")
     public List<User> findUsersByOlderThenDesiredAge(int age){
 
         if (age <= 0) {
@@ -172,17 +185,20 @@ public class UserServiceImpl implements UserService {
         return allUsers;
     }
     @Override
+    @Cacheable("user")
     public List<User> sortAscUsersByAge() {
         List<User> sortedUsers = repositoryUser.findAll(Sort.by(Sort.Direction.ASC, "age"));
         return sortedUsers;
     }
     @Override
+    @Cacheable("user")
     public List<User> sortDescUsersByAge() {
         List<User> sortedUsers = repositoryUser.findAll(Sort.by(Sort.Direction.DESC, "age"));
         return sortedUsers;
     }
 
     @Override
+    @Cacheable("user")
     public User getUserByEmail(String email) {
         return repositoryUser.findByEmail(email);
     }
