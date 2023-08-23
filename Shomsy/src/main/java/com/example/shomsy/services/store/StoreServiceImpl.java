@@ -10,6 +10,8 @@ import com.example.shomsy.repositories.StoreRepository;
 import com.example.shomsy.repositories.UserRepository;
 import com.example.shomsy.util.Helper;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class StoreServiceImpl implements StoreService{
     private final ProductRepository repositoryProduct;
     private final Helper helper;
     @Override
+    @CacheEvict(value="store",allEntries = true)
     public void saveStore(List<StoreDTO> dtos) {
         for (StoreDTO dto:dtos){
 
@@ -39,6 +42,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
+    @CacheEvict(value="store",allEntries = true)
     public void updateStore(List<StoreDTO> dtos) {
         for (StoreDTO dto : dtos) {
             Optional<Store> optionalStore = repositoryStore.findById(dto.getSid());
@@ -57,6 +61,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
+    @CacheEvict(value="store",allEntries = true)
     public void deleteStore(List<StoreDTO> dtos) {
         for (StoreDTO dto : dtos) {
             //System.out.println(helper.deleteSuccess()+"Name: "+dto.getName()+"    Age: "+dto.getAge());
@@ -74,17 +79,21 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
+    @Cacheable("store")
     public Long countStores() {
         return repositoryStore.count();
     }
     @Override
+    @Cacheable("store")
     public List<Store> getAllStores() {
         return repositoryStore.findAll();
     }
 
+    @CacheEvict(value="store",allEntries = true)
     public void deleteAllStores() {repositoryStore.deleteAll();}
 
     @Override
+    @Cacheable("store")
     public Store getOneStore(Long sid) {
         //return repository.getReferenceById(id);
         try{
