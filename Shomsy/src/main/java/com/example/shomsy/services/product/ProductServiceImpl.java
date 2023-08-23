@@ -9,6 +9,8 @@ import com.example.shomsy.repositories.StoreRepository;
 import com.example.shomsy.services.store.StoreService;
 import com.example.shomsy.util.Helper;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repositoryProduct;
     private final Helper helper;
     @Override
+    @CacheEvict(value="product",allEntries = true)
     public void saveProduct(List<ProductDTO> dtos) {
         for (ProductDTO dto:dtos){
 
@@ -35,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(value="product",allEntries = true)
     public void updateProduct(List<ProductDTO> dtos) {
         for (ProductDTO dto : dtos) {
             Optional<Product> optionalProduct = repositoryProduct.findById(dto.getPid());
@@ -53,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @CacheEvict(value="product",allEntries = true)
     public void deleteProduct(List<ProductDTO> dtos) {
         for (ProductDTO dto : dtos) {
             //System.out.println(helper.deleteSuccess()+"Name: "+dto.getName()+"    Age: "+dto.getAge());
@@ -70,17 +75,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable("product")
     public Long countProducts() {
         return repositoryProduct.count();
     }
     @Override
+    @Cacheable("product")
     public List<Product> getAllProducts() {
         return repositoryProduct.findAll();
     }
 
+    @CacheEvict(value="product",allEntries = true)
     public void deleteAllProducts() {repositoryProduct.deleteAll();}
 
     @Override
+    @Cacheable("product")
     public Product getOneProduct(Long pid) {
         //return repository.getReferenceById(id);
         try{
