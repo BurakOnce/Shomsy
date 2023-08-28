@@ -24,7 +24,7 @@ public interface UserService {
     List<User> sortAscUsersByAge();
     List<User> sortDescUsersByAge();
     User getUserByEmail(String email);
-
+    List<User> findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(int age, int lastNameLength); //Query
     /*
     public Person getPersonByEmailAndPassword(String email, String password) throws UserNotFoundException;
     boolean isPasswordMatch(Person person, String password);
