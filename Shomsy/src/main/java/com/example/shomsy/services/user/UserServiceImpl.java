@@ -203,6 +203,11 @@ public class UserServiceImpl implements UserService {
         return repositoryUser.findByEmail(email);
     }
 
+    /*for query*/
+    public List<User> findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(int age, int lastNameLength) {
+        return repositoryUser.findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(age,lastNameLength);
+    }
+
     /*
     @Override
     public Person getPersonByEmailAndPassword(String email, String password) throws UserNotFoundException {
