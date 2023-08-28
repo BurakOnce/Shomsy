@@ -3,7 +3,7 @@ package com.example.shomsy.repositories;
 import com.example.shomsy.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.Query;
 import javax.swing.event.ListDataEvent;
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +20,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Boolean existsByEmail(String email);
     User findByEmailAndPassword(String email, String password);
+
+    @Query("SELECT u FROM User u WHERE u.age > :age AND LENGTH(u.lastName) > :lastNameLength")
+    List<User> findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(int age, int lastNameLength);
 
 }
