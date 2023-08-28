@@ -66,6 +66,11 @@ public class UserController {
     @GetMapping   ("/User/SortDescUsersByAge")
     List<User> sortDescUsersByAge(){return userService.sortDescUsersByAge();};
 
+    /*for query*/
+    @GetMapping   ("/User/FindUsersWithAgeGreaterThanAndLastNameLengthGreaterThan") 
+    List<User> findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(int age, int lastNameLength){return userService.findUsersWithAgeGreaterThanAndLastNameLengthGreaterThan(age,lastNameLength);};
+
+
 
 
 }
